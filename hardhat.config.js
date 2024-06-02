@@ -3,6 +3,11 @@ require("dotenv").config()
 require("./tasks/block-number")
 require("hardhat-gas-reporter")
 require("solidity-coverage")
+require('@nomicfoundation/hardhat-chai-matchers')
+require('@nomicfoundation/hardhat-ethers')
+require('@typechain/hardhat')
+require("hardhat-deploy")
+require("hardhat-deploy-ethers")
 
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL || ""
 const PRIVATE_KEY = process.env.PRIVATE_KEY || ""
@@ -17,14 +22,20 @@ module.exports = {
     sepolia: {
       url: SEPOLIA_RPC_URL,
       accounts: [PRIVATE_KEY],
-      chainId: 11155111
+      chainId: 11155111,
+      blockConfirmations: 6
     },
     localhost: {
       url: "http://127.0.0.1:8545/",
       chainId: 31337
     }
   },
-  solidity: "0.8.24",
+  solidity: {
+    compilers: [
+      { version: "0.8.24" },
+      { version: "0.7.0" } // Sample of multi compiler
+    ]
+  },
   etherscan: {
     url: ETHERSCAN_URL,
     apiKey: {
@@ -38,5 +49,13 @@ module.exports = {
     currency: "USD",
     coinmarketcap: COINMARKETCAP_API_KEY,
     token: "MATIC"
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0
+    },
+    user: {
+      default: 1
+    }
   }
 }

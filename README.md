@@ -7,4 +7,4 @@ This is just my training repo for learning blockchain from scratch. This repo is
 - Ethers v6.12.1
 - Hardhat v2.22.4
 
-I'm using Javascript here not Typescript but might change in the future. I hope this will also help anyone want to learn blockchain.
+I'm using Javascript here not Typescript this might change in the future. I hope this will also help anyone want to learn blockchain.
