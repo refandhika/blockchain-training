@@ -6,7 +6,7 @@ import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.so
 import "./PriceConverter.sol";
 //import "./Denominations.sol";
 
-error NotOwner();
+error FundMe__NotOwner();
 
 contract FundMe {
     using PriceConverter for uint256;
@@ -42,7 +42,7 @@ contract FundMe {
     
     modifier onlyOwner {
         // require(msg.sender == owner);
-        if (msg.sender != iOwner) revert NotOwner();
+        if (msg.sender != iOwner) revert FundMe__NotOwner();
         _;
     }
     
