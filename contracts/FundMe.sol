@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.8;
 
-import "@chainlink/contracts/src/v0.8/interfaces/FeedRegistryInterface.sol";
+//import "@chainlink/contracts/src/v0.8/interfaces/FeedRegistryInterface.sol";
+import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import "./PriceConverter.sol";
-import "./Denominations.sol";
+//import "./Denominations.sol";
 
 error NotOwner();
 
 contract FundMe {
     using PriceConverter for uint256;
-    using Denominations for address;
+    //using Denominations for address;
 
     mapping(address => uint256) public addressToAmountFunded;
     address[] public funders;
@@ -18,26 +19,25 @@ contract FundMe {
     address public /* immutable */ iOwner;
     uint256 public constant MINIMUM_USD = 50 * 10 ** 18;
     
-    FeedRegistryInterface public priceFeed;
+    AggregatorV3Interface public priceFeed;
 
     constructor(address priceFeedAddress) {
         iOwner = msg.sender;
-        priceFeed = FeedRegistryInterface(priceFeedAddress);
+        priceFeed = AggregatorV3Interface(priceFeedAddress);
     }
 
     function fund() public payable {
-        require(msg.value.getConversionRate(priceFeed) >= MINIMUM_USD, "You need to spend more ETH!");
-        // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
+        require(
+            msg.value.getConversionRate(priceFeed) >= MINIMUM_USD,
+            "You need to spend more ETH!"
+        );
         addressToAmountFunded[msg.sender] += msg.value;
         funders.push(msg.sender);
     }
     
     function getVersion() public view returns (uint256){
         // ETH/USD price feed address of Sepolia Network.
-        return priceFeed.version(
-          Denominations.ETH,
-          Denominations.USD
-        );
+        return priceFeed.version();
     }
     
     modifier onlyOwner {
