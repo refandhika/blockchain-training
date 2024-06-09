@@ -30,3 +30,5 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     log("01 Done ==================================================")
 }
+
+module.exports.tags = ["all"]
