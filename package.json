@@ -1,5 +1,6 @@
 {
-  "name": "hardhat-project",
+  "name": "blockchain training",
+  "authot": "refa andhika",
   "version": "0.0.1",
   "license": "MIT",
   "devDependencies": {
@@ -19,5 +20,9 @@
   "dependencies": {
     "@chainlink/contracts": "^1.1.1",
     "dotenv": "^16.4.5"
+  },
+  "scripts": {
+    "test": "npx hardhat test",
+    "test:staging": "npx hardhat test --network sepolia"
   }
 }
